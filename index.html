@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <button onclick="javascript: sendNotification();">send notification</button>
+        <script>
+            function getResult(input){
+                var result = [];
+                for(var i = 0; i < input.length; i++){
+                    var current = input[i];
+                    switch(current){
+                        case '+':
+                            if(result.length < 2){
+                                console.log('err');
+                                return;
+                            } else {
+                                result.push(result[result.length-2] + result[result.length - 1]);
+                            }
+                            break;
+                        case 'C':
+                            if(result.length === 0){
+                                console.log('err');
+                                return;
+                            }
+                            result.pop();
+                            break;
+                        case 'D': 
+                            if(result.length === 0){
+                                console.log('err');
+                                return;
+                            }
+                            result.push(result[result.length-1]*2);
+                            break;
+                        default:
+                            result.push(current*1);
+                            break;
+                    }
+                }
+                var sum = 0;
+                result.map(item => {
+                    sum += item;
+                })
+                console.log(sum);
+            }
+
+            // var testInput = "5 10 C D +";
+            // getResult(testInput.split(" "));
+            function tmp(k, x){
+                let res =[];
+                for(let i = 0; i < k.length; i ++){
+                    if(x === 0){
+                        res.push(0);
+                    } else if(x > 0){
+                        let j = i + 1;
+                        let tmpcnt = x;
+                        let tmpsum = 0;
+                        while(tmpcnt > 0){
+                            if(j >= k.length){
+                                j -= k.length;
+                            }
+                            tmpsum += k[j];
+                            tmpcnt--;
+                        }
+                        console.log(tmpsum);
+                        res.push(tmpsum);
+                    } else {
+                        let j = i - 1;
+                        let tmpcnt = x;
+                        let tmpsum = 0;
+                        while(tmpcnt > 0){
+                            tmpsum += k[j];
+                            tmpcnt--;
+                        }
+                        console.log(tmpsum);
+                        res.push(tmpsum);
+                    }
+
+                    console.log(res);
+                }
+                console.log(res);
+            }
+            
+            function getpower(k){
+                while(k.length > 1){
+                    k.sort().reverse();
+                    let a = k[0];
+                    let b = k[1];
+                    k.shift();
+                    k.shift();
+                    if(a !== b){
+                        let re = Math.abs(a - b);
+                        k.unshift(re);
+                    }
+                    // console.log(k);
+                }
+                 console.log(k);
+            }
+            // getpower([1,2,8,7,1, 1]);
+        // tmp([1, 2, 3, 4], 2);
+        // Request permission for notifications
+if (Notification.permission !== "granted") {
+  Notification.requestPermission();
+}
+
+// Function to send a notification
+function sendNotification() {
+  if (Notification.permission === "granted") {
+    var options = {
+      body: "Hello, World!",
+      icon: "1.PNG"
+    };
+
+    // Display the notification
+    var notification = new Notification("My Notification", options);
+
+    // Optional: Handle user interaction with the notification
+    notification.onclick = function(event) {
+      // Handle click event
+      alert("notification clicked");
+    };
+
+    notification.onclose = function(event) {
+        alert("closed");
+      // Handle close event
+    };
+  } else {
+    alert("notification not allowd");
+  }
+}
+
+// Example usage - call the sendNotification() function to send a notification
+sendNotification();
+
+        </script>
+    </body>
+</html>
